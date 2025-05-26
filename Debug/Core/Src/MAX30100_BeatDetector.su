@@ -1,0 +1,5 @@
+../Core/Src/MAX30100_BeatDetector.c:10:6:BeatDetector_Init	16	static
+../Core/Src/MAX30100_BeatDetector.c:19:7:BeatDetector_GetRate	16	static
+../Core/Src/MAX30100_BeatDetector.c:31:7:BeatDetector_GetCurrentThreshold	16	static
+../Core/Src/MAX30100_BeatDetector.c:37:6:BeatDetector_AddSample	40	static
+../Core/Src/MAX30100_BeatDetector.c:110:13:BeatDetector_DecreaseThreshold	24	static

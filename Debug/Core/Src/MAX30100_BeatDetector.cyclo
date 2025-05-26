@@ -1,0 +1,5 @@
+../Core/Src/MAX30100_BeatDetector.c:10:6:BeatDetector_Init	1
+../Core/Src/MAX30100_BeatDetector.c:19:7:BeatDetector_GetRate	2
+../Core/Src/MAX30100_BeatDetector.c:31:7:BeatDetector_GetCurrentThreshold	1
+../Core/Src/MAX30100_BeatDetector.c:37:6:BeatDetector_AddSample	15
+../Core/Src/MAX30100_BeatDetector.c:110:13:BeatDetector_DecreaseThreshold	4

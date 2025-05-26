@@ -1,0 +1,14 @@
+../Core/Src/MAX30100.c:7:6:MAX30100_Begin	2
+../Core/Src/MAX30100.c:32:6:MAX30100_SetMode	1
+../Core/Src/MAX30100.c:38:6:MAX30100_ConfigureSPO2	2
+../Core/Src/MAX30100.c:49:6:MAX30100_SetLedsCurrent	1
+../Core/Src/MAX30100.c:55:6:MAX30100_Update	1
+../Core/Src/MAX30100.c:61:6:MAX30100_GetRawValues	2
+../Core/Src/MAX30100.c:72:6:MAX30100_ResetFifo	1
+../Core/Src/MAX30100.c:80:6:MAX30100_Shutdown	1
+../Core/Src/MAX30100.c:87:6:MAX30100_Resume	1
+../Core/Src/MAX30100.c:95:9:MAX30100_GetPartId	1
+../Core/Src/MAX30100.c:101:9:MAX30100_ReadRegister	1
+../Core/Src/MAX30100.c:108:6:MAX30100_WriteRegister	1
+../Core/Src/MAX30100.c:113:6:MAX30100_BurstRead	1
+../Core/Src/MAX30100.c:119:6:MAX30100_ReadFifoData	1

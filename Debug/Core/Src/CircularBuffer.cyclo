@@ -1,0 +1,12 @@
+../Core/Src/CircularBuffer.c:5:6:CircularBuffer_Init	1
+../Core/Src/CircularBuffer.c:14:6:CircularBuffer_Push	2
+../Core/Src/CircularBuffer.c:29:6:CircularBuffer_Pop	2
+../Core/Src/CircularBuffer.c:40:6:CircularBuffer_First	2
+../Core/Src/CircularBuffer.c:49:6:CircularBuffer_Last	3
+../Core/Src/CircularBuffer.c:59:6:CircularBuffer_Get	2
+../Core/Src/CircularBuffer.c:69:9:CircularBuffer_Size	1
+../Core/Src/CircularBuffer.c:75:9:CircularBuffer_Available	1
+../Core/Src/CircularBuffer.c:81:9:CircularBuffer_Capacity	1
+../Core/Src/CircularBuffer.c:87:6:CircularBuffer_IsEmpty	1
+../Core/Src/CircularBuffer.c:93:6:CircularBuffer_IsFull	1
+../Core/Src/CircularBuffer.c:99:6:CircularBuffer_Clear	1
