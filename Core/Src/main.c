@@ -21,20 +21,15 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "ili9341.h"
-#include "fonts.h"
-#include "testimg1.h"
-#include "A.h"
-#include "D.h"
-#include "E.h"
 #include "stm32f1xx_hal.h"
 #include "string.h"
 #include "stdio.h"
 #include "delay.h"
+#include "ili9341.h"
+#include "fonts.h"
 #include "gps.h"
 #include "DHT.h"
 #include "PMS.h"
-#include "MAX30100_PulseOximeter.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -80,14 +75,10 @@ void Send_AT_Command1(UART_HandleTypeDef *huart, const char *command, uint32_t t
 void TestUart ();
 void ReadDataSensorNew ();
 void Max30100 ();
+void Max30100_Init();
 void TestGPS ();
 void TestDHT22();
 void TestUart1 ();
-void onBeatDetected(void) {
-    // Xử lý khi phát hiện nhịp tim (bật LED, gửi UART, ...)
-	ILI9341_WriteString(0, 0, "Beat!" , Font_7x10, ILI9341_CYAN, ILI9341_BLACK);
-
-}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -147,53 +138,14 @@ int main(void)
   ILI9341_Init();
   ILI9341_FillScreen(ILI9341_BLACK);
 
-//  MAX30100_Init(&hi2c1, &huart1);
-//  MAX30100_SetSpO2SampleRate(MAX30100_SPO2SR_DEFAULT);
-//  MAX30100_SetLEDPulseWidth(MAX30100_LEDPW_DEFAULT);
-//  MAX30100_SetLEDCurrent(MAX30100_LEDCURRENT_DEFAULT, MAX30100_LEDCURRENT_DEFAULT);
-//  MAX30100_SetMode(MAX30100_SPO2_MODE);
-
   GPS_Init();
   PMS_Init(&pms, &huart3);
   PMS_WakeUp(&pms);
-  HAL_Delay(1000); // �?ợi cảm biến ổn định
+  HAL_Delay(1000);
 
-  PulseOximeter_Init(&pox);
-  PulseOximeter_SetOnBeatDetectedCallback(&pox, onBeatDetected);
-
-  if (!PulseOximeter_Begin(&pox, PULSEOXIMETER_DEBUGGINGMODE_NONE)) {
-	  ILI9341_WriteString(0, 0, "Initializing!!" , Font_7x10, ILI9341_CYAN, ILI9341_BLACK);
-      while (1); // Lỗi khởi tạo, dừng lại
-  } else {
-	  ILI9341_WriteString(0, 0, "Init Successfull !!" , Font_7x10, ILI9341_CYAN, ILI9341_BLACK);
-  }
-  // Sau khi PulseOximeter_Begin(&pox, ...);
-  // Sau khi PulseOximeter_Begin(&pox, ...);
-  uint8_t spo2cfg = MAX30100_ReadRegister(MAX30100_REG_SPO2_CONFIGURATION);
-  spo2cfg |= (1 << 6); // Bật EN_SPO2
-  MAX30100_WriteRegister(MAX30100_REG_SPO2_CONFIGURATION, spo2cfg);
-
-  // Đọc lại để kiểm tra
-  spo2cfg = MAX30100_ReadRegister(MAX30100_REG_SPO2_CONFIGURATION);
-  sprintf(data, "SPO2CFG:0x%02X", spo2cfg);
-  ILI9341_WriteString(0, 15, data, Font_7x10, ILI9341_RED, ILI9341_BLACK);
-  MAX30100_WriteRegister(MAX30100_REG_INTERRUPT_STATUS, 0x00);
-  uint8_t mode = MAX30100_ReadRegister(MAX30100_REG_MODE_CONFIGURATION);
-  char dbg[32];
-  sprintf(dbg, "MODE:0x%02X", mode);
-  ILI9341_WriteString(0, 30, dbg, Font_7x10, ILI9341_RED, ILI9341_BLACK);
-
-  uint8_t status = MAX30100_ReadRegister(MAX30100_REG_INTERRUPT_STATUS);
-  sprintf(dbg, "INT:0x%02X", status);
-  ILI9341_WriteString(0, 45, dbg, Font_7x10, ILI9341_RED, ILI9341_BLACK);
-
-  uint8_t part_id = MAX30100_GetPartId(&pox.hrm);
-  sprintf(data, "PartID: 0x%02X", part_id);
-  ILI9341_WriteString(0, 60, data, Font_7x10, ILI9341_CYAN, ILI9341_BLACK);
-
-  HAL_Delay(5000);
   tsLastReport = HAL_GetTick();
-  ILI9341_FillScreen(ILI9341_BLACK);
+
+
 
   /* USER CODE END 2 */
 
@@ -203,11 +155,10 @@ int main(void)
   {
 //	  TestGPS();
 //	  HAL_Delay(2000);
-//	  TestUart();
-	  Max30100();
+	  TestUart();
 //	  ReadDataSensorNew();
 //	  TestDHT22();
-//	  HAL_Delay(7000);
+	  HAL_Delay(7000);
 
 
     /* USER CODE END WHILE */
@@ -520,6 +471,44 @@ float calculate_spo2(uint16_t *ir, uint16_t *red, int len) {
 
     return spo2;
 }
+void Max30100_Init(){
+	  PulseOximeter_Init(&pox);
+	  PulseOximeter_SetOnBeatDetectedCallback(&pox, onBeatDetected);
+
+	  if (!PulseOximeter_Begin(&pox, PULSEOXIMETER_DEBUGGINGMODE_NONE)) {
+		  ILI9341_WriteString(0, 0, "Initializing!!" , Font_7x10, ILI9341_CYAN, ILI9341_BLACK);
+	      while (1); // Lỗi khởi tạo, dừng lại
+	  } else {
+		  ILI9341_WriteString(0, 0, "Init Successfull !!" , Font_7x10, ILI9341_CYAN, ILI9341_BLACK);
+	  }
+	  // Sau khi PulseOximeter_Begin(&pox, ...);
+	  // Sau khi PulseOximeter_Begin(&pox, ...);
+	  uint8_t spo2cfg = MAX30100_ReadRegister(MAX30100_REG_SPO2_CONFIGURATION);
+	  spo2cfg |= (1 << 6); // Bật EN_SPO2
+	  MAX30100_WriteRegister(MAX30100_REG_SPO2_CONFIGURATION, spo2cfg);
+
+	  // Đọc lại để kiểm tra
+	  spo2cfg = MAX30100_ReadRegister(MAX30100_REG_SPO2_CONFIGURATION);
+	  sprintf(data, "SPO2CFG:0x%02X", spo2cfg);
+	  ILI9341_WriteString(0, 15, data, Font_7x10, ILI9341_RED, ILI9341_BLACK);
+	  MAX30100_WriteRegister(MAX30100_REG_INTERRUPT_STATUS, 0x00);
+	  uint8_t mode = MAX30100_ReadRegister(MAX30100_REG_MODE_CONFIGURATION);
+	  char dbg[32];
+	  sprintf(dbg, "MODE:0x%02X", mode);
+	  ILI9341_WriteString(0, 30, dbg, Font_7x10, ILI9341_RED, ILI9341_BLACK);
+
+	  uint8_t status = MAX30100_ReadRegister(MAX30100_REG_INTERRUPT_STATUS);
+	  sprintf(dbg, "INT:0x%02X", status);
+	  ILI9341_WriteString(0, 45, dbg, Font_7x10, ILI9341_RED, ILI9341_BLACK);
+
+	  uint8_t part_id = MAX30100_GetPartId(&pox.hrm);
+	  sprintf(data, "PartID: 0x%02X", part_id);
+	  ILI9341_WriteString(0, 60, data, Font_7x10, ILI9341_CYAN, ILI9341_BLACK);
+
+	  HAL_Delay(2000);
+	  tsLastReport = HAL_GetTick();
+	  ILI9341_FillScreen(ILI9341_BLACK);
+}
 void Max30100() {
     PulseOximeter_Update(&pox);
     // Định kỳ báo cáo nhịp tim và SpO2
@@ -577,8 +566,11 @@ void TestUart (){
     }
 
 	//Send data
-
-	Send_AT_Commands(&huart4);
+    // Send Data định kỳ
+    if (HAL_GetTick() - tsLastReport > 5000) {
+    	Send_AT_Commands(&huart4);
+        tsLastReport = HAL_GetTick();
+    }
 }
 
 void Send_AT_Commands(UART_HandleTypeDef *huart) {

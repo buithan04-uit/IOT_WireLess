@@ -24,9 +24,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- ../Core/Inc/ili9341.h ../Core/Inc/fonts.h ../Core/Inc/fonts.h \
- ../Core/Inc/testimg1.h ../Core/Inc/A.h ../Core/Inc/D.h ../Core/Inc/E.h \
- ../Core/Inc/delay.h ../Core/Inc/gps.h ../Core/Inc/main.h \
+ ../Core/Inc/delay.h ../Core/Inc/ili9341.h ../Core/Inc/fonts.h \
+ ../Core/Inc/fonts.h ../Core/Inc/gps.h ../Core/Inc/main.h \
  ../Core/Inc/DHT.h ../Core/Inc/PMS.h ../Core/Inc/MAX30100_PulseOximeter.h \
  ../Core/Inc/MAX30100.h ../Core/Inc/CircularBuffer.h \
  ../Core/Inc/MAX30100_Registers.h ../Core/Inc/MAX30100_BeatDetector.h \
@@ -57,14 +56,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+../Core/Inc/delay.h:
 ../Core/Inc/ili9341.h:
 ../Core/Inc/fonts.h:
 ../Core/Inc/fonts.h:
-../Core/Inc/testimg1.h:
-../Core/Inc/A.h:
-../Core/Inc/D.h:
-../Core/Inc/E.h:
-../Core/Inc/delay.h:
 ../Core/Inc/gps.h:
 ../Core/Inc/main.h:
 ../Core/Inc/DHT.h:
